@@ -6,25 +6,57 @@ output:
   github_document:
     toc: true
     toc_depth: 2
-    fig_width: 5
+    fig_width: 7
     fig_height: 5
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = TRUE, message = FALSE, warning = FALSE)
 ```
 
-## Exercise with data
+# Exercise with data
 
-Download `wk2_SPY.csv` from Canvas. The data contain historical prices and volume for S&P 500 index (SPY) from the web. Read it into `R`.
+Download `wk2_stocks.rds` from Canvas. The data contain historical prices and volume for S&P 500 index (SPY) from the web. Read it into `R`.
 
 ```{r}
-df <- read.csv("../data/wk2_SPY.csv")
+df <- readRDS("../data/wk2_stocks.rds")
 str(df)
 ```
-## Statistics of S&P daily prices
+## Statistics of S&P daily returns
 
-+ The average daily closing price of the S&P index during this period is `r round(100*sum(df$close), 2)`%.
++ The cumulative returns of the S&P index during this period is `r round(100*sum(df$SPY_returns), 2)`%.
 
-+ The standard deviation of the daily closing price of the S&P index during this period is `r round(100*sd(df$close), 2)`%.
++ The average daily returns of the S&P index during this period is `r round(100*mean(df$SPY_returns), 2)`%.
+
++ The standard deviation of the daily returns of the S&P index during this period is `r round(100*sd(df$SPY_returns), 2)`%.
+
+## Prices of S&P in this period
+
+```{r}
+library(tidyverse)
+ggplot(data = df, aes(x = date, y = SPY_prices)) +
+  geom_line() +
+  theme_bw() +
+  labs(x = "", y = "", title = "S&P 500 (SPY) Stock Prices")
+```
+
+## Total yearly returns of S&P from 2001 to 2023
+
+```{r}
+df %>%
+  mutate(year = year(date)) %>%
+  filter(year <= 2023) %>%
+  group_by(year) %>%
+  summarize(yr_returns = sum(SPY_returns)*100) %>%
+  ggplot(aes(x = year, y = yr_returns)) +
+  geom_col() +
+  theme_bw() +
+  labs(x = "", y = "", title = "S&P 500 (SPY) Stock Total Yearly Returns (%)")
+```
+
+
+
+
+
+
 
