@@ -1,0 +1,30 @@
+---
+title: "Week 2 Workshop"
+author: "YH"
+date: "`r Sys.Date()`"
+output:
+  github_document:
+    toc: true
+    toc_depth: 2
+    fig_width: 5
+    fig_height: 5
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Exercise with data
+
+Download `wk2_SPY.csv` from Canvas. The data contain historical prices and volume for S&P 500 index (SPY) from the web. Read it into `R`.
+
+```{r}
+df <- read.csv("../data/wk2_SPY.csv")
+str(df)
+```
+## Statistics of S&P daily prices
+
++ The average daily closing price of the S&P index during this period is `r round(100*sum(df$close), 2)`%.
+
++ The standard deviation of the daily closing price of the S&P index during this period is `r round(100*sd(df$close), 2)`%.
+
