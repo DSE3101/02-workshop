@@ -16,6 +16,7 @@ prices and volume for S&P 500 index (SPY) from the web. Read it into
 `R`.
 
 ``` r
+library(tidyverse)
 df <- readRDS("../data/wk2_stocks.rds")
 str(df)
 ```
@@ -39,7 +40,6 @@ str(df)
 ## Prices of S&P in this period
 
 ``` r
-library(tidyverse)
 ggplot(data = df, aes(x = date, y = SPY_prices)) +
   geom_line() +
   theme_bw() +
